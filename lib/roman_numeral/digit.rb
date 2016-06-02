@@ -10,7 +10,7 @@ class RomanNumeral
     end
   end
 
-  Digit = Struct.new(:base_10, :representation, :successor, :sub_run, :add_run) do
+  Digit = Struct.new(:base_10, :representation, :successor, :add_run, :sub_run) do
     def subtractive(integer)
       s = additive(integer)
       convert_to_subtractive(s)
@@ -25,7 +25,7 @@ class RomanNumeral
     protected
 
     def convert_to_subtractive(s)
-      s = s.gsub(sub_run, add_run)
+      s = s.gsub(add_run, sub_run)
       successor.convert_to_subtractive(s)
     end
 

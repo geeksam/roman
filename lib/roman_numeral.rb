@@ -23,8 +23,8 @@ class RomanNumeral
   #              base_10
   #              |     representation
   #              |     |    successor
-  #              |     |    |   sub_run
-  #              |     |    |   |        add_run
+  #              |     |    |   add_run
+  #              |     |    |   |        sub_run
   #              |     |    |   |        |
   #              V     V    V   V        V
   I = Digit.new( 1,    "I", __, "",      ""   )
