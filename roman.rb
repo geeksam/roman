@@ -41,7 +41,9 @@ class RomanNumeral
     end
 
     def subtractive(integer)
-      subtractive_chunk(integer) + successor.subtractive(integer % base_10)
+      head = subtractive_chunk(integer)
+      tail = successor.subtractive(integer % base_10)
+      head + tail
     end
 
     def subtractive_chunk(integer)
