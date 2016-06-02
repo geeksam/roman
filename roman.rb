@@ -1,62 +1,55 @@
 class Integer
   def to_roman
-    RomanNumeral.new(self).to_s
+    RomanNumeral.new(self)
   end
 end
 
 class RomanNumeral
   attr_reader :n
   def initialize(n)
+    unless (1..3999).include?(n)
+      fail ArgumentError, "Only numbers from 1 to 3,999 can be represented as Roman numerals!"
+    end
     @n = n
   end
 
-  def to_s
-    [ thousands, hundreds, tens, ones ].compact.join
+  def additive
+    convert_to_additive subtractive
   end
 
-  private
-
-  def thousands
-    i = n.div(1000)
-    fail ArgumentError if i > 3
-    case i
-    when 0 ; ''
-    when 1 ; 'M'
-    when 2 ; 'MM'
-    when 3 ; 'MMM'
+  VALUES = {
+    1000 => "M", 500  => "D",
+    100  => "C", 50   => "L",
+    10   => "X", 5    => "V",
+    1    => "I",
+  }
+  def subtractive
+    roman = ''
+    remainder = n
+    until remainder.zero? do
+      next_value = VALUES.keys.detect {|val| remainder.div(val) > 0 }
+      roman << roman_digit(remainder, next_value)
+      remainder = remainder.modulo(next_value)
     end
+    roman
   end
 
-  def hundreds
-    i = n.div(100) % 100
-    digitize i, "C", "D", "M"
-  end
-
-  def tens
-    i = n.div(10) % 10
-    digitize i, "X", "L", "C"
-  end
-
-  def ones
-    i = n % 10
-    digitize i, "I", "V", "X"
-  end
-
-  def digitize(i, single, half_set, full_set)
-    case i
-    when 0 ; ''
-    when 1 ; single * 1
-    when 2 ; single * 2
-    when 3 ; single * 3
-    when 4 ; single + half_set
-
-    when 5 ; half_set
-    when 6 ; half_set + single * 1
-    when 7 ; half_set + single * 2
-    when 8 ; half_set + single * 3
-    when 9 ; single + full_set
+  REPLACEMENTS = {
+    "DCCCC" => "CM", "CCCC" => "CD",
+    "LXXXX" => "XC", "XXXX" => "XL",
+    "VIIII" => "IX", "IIII" => "IV",
+  }
+  def convert_to_additive(subtractive)
+    out = subtractive
+    REPLACEMENTS.each do |sub_form, add_form|
+      out = out.gsub(sub_form, add_form)
     end
+    out
+  end
+
+  def roman_digit(remainder, value)
+    roman = VALUES[value]
+    roman * remainder.div(value)
   end
 
 end
-
