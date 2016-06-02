@@ -33,6 +33,10 @@ class RomanNumeral
     def %(integer)
       integer.modulo(base_10)
     end
+
+    def chunk_for(integer)
+      representation * integer.div(base_10)
+    end
   end
 
   I = Digit.new( "I", 1,    nil )
@@ -44,7 +48,6 @@ class RomanNumeral
   M = Digit.new( "M", 1000, D   )
 
   DIGITS = [ M, D, C, L, X, V, I ]
-  VALUE_HASH = Hash[ DIGITS.map {|e| [ e.to_i, e.representation ] } ]
 
   # Build number in chunks, recursively
   def next_chunk(n)
@@ -62,8 +65,7 @@ class RomanNumeral
   end
 
   def roman_digit(remainder, digit)
-    roman = VALUE_HASH[digit.to_i]
-    roman * remainder.div(digit.to_i)
+    digit.chunk_for(remainder)
   end
 
   REPLACEMENTS = {
