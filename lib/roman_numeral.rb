@@ -8,11 +8,11 @@ class RomanNumeral
   end
 
   def additive
-    M.additive(n)
+    STARTING_DIGIT.additive(n)
   end
 
   def subtractive
-    M.subtractive(n)
+    STARTING_DIGIT.subtractive(n)
   end
 
   private
@@ -34,5 +34,7 @@ class RomanNumeral
   C = Digit.new( 100,  "C", L,  "LXXXX", "XC" )
   D = Digit.new( 500,  "D", C,  "CCCC",  "CD" )
   M = Digit.new( 1000, "M", D,  "DCCCC", "CM" )
+
+  STARTING_DIGIT = M
 
 end
