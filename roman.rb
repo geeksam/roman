@@ -54,7 +54,7 @@ class RomanNumeral
     return '' if n.zero?
 
     digit = next_digit(n)
-    chunk = roman_digit(n, digit)
+    chunk = digit.chunk_for(n)
     n = digit % n
 
     return chunk + next_chunk(n)
@@ -62,10 +62,6 @@ class RomanNumeral
 
   def next_digit(n)
     DIGITS.detect {|val| val < n }
-  end
-
-  def roman_digit(remainder, digit)
-    digit.chunk_for(remainder)
   end
 
   REPLACEMENTS = {
