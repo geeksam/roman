@@ -23,6 +23,12 @@ class RomanNumeral
 
   private
 
+  class NullDigit
+    def next_digit_for(*)
+      self
+    end
+  end
+
   Digit = Struct.new(:representation, :base_10, :successor) do
     alias to_i base_10
 
@@ -39,13 +45,14 @@ class RomanNumeral
     end
   end
 
-  I = Digit.new( "I", 1,    nil )
-  V = Digit.new( "V", 5,    I   )
-  X = Digit.new( "X", 10,   V   )
-  L = Digit.new( "L", 50,   X   )
-  C = Digit.new( "C", 100,  L   )
-  D = Digit.new( "D", 500,  C   )
-  M = Digit.new( "M", 1000, D   )
+  __ = NullDigit.new
+  I = Digit.new( "I", 1,    __ )
+  V = Digit.new( "V", 5,    I  )
+  X = Digit.new( "X", 10,   V  )
+  L = Digit.new( "L", 50,   X  )
+  C = Digit.new( "C", 100,  L  )
+  D = Digit.new( "D", 500,  C  )
+  M = Digit.new( "M", 1000, D  )
 
   DIGITS = [ M, D, C, L, X, V, I ]
 
