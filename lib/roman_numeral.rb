@@ -7,12 +7,12 @@ class RomanNumeral
     @n = n
   end
 
-  def additive
-    STARTING_DIGIT.additive(n)
-  end
-
   def subtractive
     STARTING_DIGIT.subtractive(n)
+  end
+
+  def additive
+    STARTING_DIGIT.additive(n)
   end
 
   private

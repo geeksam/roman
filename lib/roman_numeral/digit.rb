@@ -1,37 +1,37 @@
 class RomanNumeral
 
   class NullDigit
-    def subtractive(*)
+    def additive(*)
       ""
     end
 
-    def convert_to_additive(s)
+    def convert_to_subtractive(s)
       s
     end
   end
 
   Digit = Struct.new(:base_10, :representation, :successor, :sub_run, :add_run) do
-    def additive(integer)
-      s = subtractive(integer)
-      convert_to_additive(s)
+    def subtractive(integer)
+      s = additive(integer)
+      convert_to_subtractive(s)
     end
 
-    def subtractive(integer)
-      head = subtractive_chunk(integer)
-      tail = successor.subtractive(integer % base_10)
+    def additive(integer)
+      head = additive_chunk(integer)
+      tail = successor.additive(integer % base_10)
       head + tail
     end
 
     protected
 
-    def convert_to_additive(s)
+    def convert_to_subtractive(s)
       s = s.gsub(sub_run, add_run)
-      successor.convert_to_additive(s)
+      successor.convert_to_subtractive(s)
     end
 
     private
 
-    def subtractive_chunk(integer)
+    def additive_chunk(integer)
       if needs_representation?( integer )
         representation * integer.div(base_10)
       else
