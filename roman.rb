@@ -50,7 +50,8 @@ class RomanNumeral
   end
 
   def next_value(n)
-    VALUE_HASH.keys.detect {|val| n.div(val) > 0 }
+    value = DIGITS.detect {|val| n.div(val.to_i) > 0 }
+    value.to_i
   end
 
   def roman_digit(remainder, value)
