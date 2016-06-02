@@ -13,10 +13,6 @@ class RomanNumeral
       integer.div(base_10) > 0
     end
 
-    def %(integer)
-      integer.modulo(base_10)
-    end
-
     def subtractive(integer)
       head = subtractive_chunk(integer)
       tail = successor.subtractive(integer % base_10)
