@@ -23,12 +23,18 @@ class RomanNumeral
 
   private
 
-  VALUES = {
-    1000 => "M", 500  => "D",
-    100  => "C", 50   => "L",
-    10   => "X", 5    => "V",
-    1    => "I",
-  }
+  Digit = Struct.new(:representation, :base_10, :successor)
+
+  I = Digit.new( "I", 1,    nil )
+  V = Digit.new( "V", 5,    I   )
+  X = Digit.new( "X", 10,   V   )
+  L = Digit.new( "L", 50,   X   )
+  C = Digit.new( "C", 100,  L   )
+  D = Digit.new( "D", 500,  C   )
+  M = Digit.new( "M", 1000, D   )
+
+  DIGITS = [ M, D, C, L, X, V, I ]
+  VALUE_HASH = Hash[ DIGITS.map {|e| [ e.base_10, e.representation ] } ]
 
   # Build number in chunks, recursively
   def next_chunk(n)
@@ -42,11 +48,11 @@ class RomanNumeral
   end
 
   def next_value(n)
-    VALUES.keys.detect {|val| n.div(val) > 0 }
+    VALUE_HASH.keys.detect {|val| n.div(val) > 0 }
   end
 
   def roman_digit(remainder, value)
-    roman = VALUES[value]
+    roman = VALUE_HASH[value]
     roman * remainder.div(value)
   end
 
