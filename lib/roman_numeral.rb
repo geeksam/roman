@@ -20,13 +20,20 @@ class RomanNumeral
   require_relative 'roman_numeral/digit'
 
   __ = NullDigit.new
-  I = Digit.new( "I", 1,    __ )
-  V = Digit.new( "V", 5,    I  )
-  X = Digit.new( "X", 10,   V  )
-  L = Digit.new( "L", 50,   X  )
-  C = Digit.new( "C", 100,  L  )
-  D = Digit.new( "D", 500,  C  )
-  M = Digit.new( "M", 1000, D  )
+  #              base_10
+  #              |     representation
+  #              |     |    successor
+  #              |     |    |
+  #              |     |    |
+  #              |     |    |
+  #              V     V    V
+  I = Digit.new( 1,    "I", __ )
+  V = Digit.new( 5,    "V", I  )
+  X = Digit.new( 10,   "X", V  )
+  L = Digit.new( 50,   "L", X  )
+  C = Digit.new( 100,  "C", L  )
+  D = Digit.new( 500,  "D", C  )
+  M = Digit.new( 1000, "M", D  )
 
   REPLACEMENTS = {
     "DCCCC" => "CM", "CCCC" => "CD",

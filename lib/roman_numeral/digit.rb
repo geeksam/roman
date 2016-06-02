@@ -6,7 +6,7 @@ class RomanNumeral
     end
   end
 
-  Digit = Struct.new(:representation, :base_10, :successor) do
+  Digit = Struct.new(:base_10, :representation, :successor) do
     def subtractive(integer)
       head = subtractive_chunk(integer)
       tail = successor.subtractive(integer % base_10)
