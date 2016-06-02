@@ -41,7 +41,19 @@ class RomanNumeral
     end
 
     def subtractive_chunk(integer)
-      representation * integer.div(base_10)
+      if self < integer
+        representation * integer.div(base_10)
+      else
+        ""
+      end
+    end
+
+    def next_digit_for(integer)
+      if self < integer
+        self
+      else
+        successor.next_digit_for(integer)
+      end
     end
   end
 
@@ -54,21 +66,15 @@ class RomanNumeral
   D = Digit.new( "D", 500,  C  )
   M = Digit.new( "M", 1000, D  )
 
-  DIGITS = [ M, D, C, L, X, V, I ]
-
   # Build number in chunks, recursively
-  def next_chunk(n)
+  def next_chunk(n, digit = M)
     return '' if n.zero?
 
-    digit = next_digit(n)
     chunk = digit.subtractive_chunk(n)
     n = digit % n
 
-    return chunk + next_chunk(n)
-  end
-
-  def next_digit(n)
-    DIGITS.detect {|val| val < n }
+    digit = digit.next_digit_for(n)
+    return chunk + next_chunk(n, digit)
   end
 
   REPLACEMENTS = {
