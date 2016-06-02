@@ -17,21 +17,37 @@ class RomanNumeral
     convert_to_additive subtractive
   end
 
+  def subtractive
+    next_chunk(n)
+  end
+
+  private
+
   VALUES = {
     1000 => "M", 500  => "D",
     100  => "C", 50   => "L",
     10   => "X", 5    => "V",
     1    => "I",
   }
-  def subtractive
-    roman = ''
-    remainder = n
-    until remainder.zero? do
-      next_value = VALUES.keys.detect {|val| remainder.div(val) > 0 }
-      roman << roman_digit(remainder, next_value)
-      remainder = remainder.modulo(next_value)
-    end
-    roman
+
+  # Build number in chunks, recursively
+  def next_chunk(n)
+    return '' if n.zero?
+
+    value = next_value(n)
+    chunk = roman_digit(n, value)
+    n = n.modulo(value)
+
+    return chunk + next_chunk(n)
+  end
+
+  def next_value(n)
+    VALUES.keys.detect {|val| n.div(val) > 0 }
+  end
+
+  def roman_digit(remainder, value)
+    roman = VALUES[value]
+    roman * remainder.div(value)
   end
 
   REPLACEMENTS = {
@@ -45,11 +61,6 @@ class RomanNumeral
       out = out.gsub(sub_form, add_form)
     end
     out
-  end
-
-  def roman_digit(remainder, value)
-    roman = VALUES[value]
-    roman * remainder.div(value)
   end
 
 end
