@@ -42,16 +42,15 @@ class RomanNumeral
   def next_chunk(n)
     return '' if n.zero?
 
-    value = next_value(n)
-    chunk = roman_digit(n, value)
-    n = n.modulo(value)
+    digit = next_digit(n)
+    chunk = roman_digit(n, digit.to_i)
+    n = n.modulo(digit.to_i)
 
     return chunk + next_chunk(n)
   end
 
-  def next_value(n)
-    value = DIGITS.detect {|val| n.div(val.to_i) > 0 }
-    value.to_i
+  def next_digit(n)
+    DIGITS.detect {|val| n.div(val.to_i) > 0 }
   end
 
   def roman_digit(remainder, value)
