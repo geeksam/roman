@@ -29,6 +29,10 @@ class RomanNumeral
     def <(integer)
       integer.div(base_10) > 0
     end
+
+    def %(integer)
+      integer.modulo(base_10)
+    end
   end
 
   I = Digit.new( "I", 1,    nil )
@@ -48,7 +52,7 @@ class RomanNumeral
 
     digit = next_digit(n)
     chunk = roman_digit(n, digit)
-    n = n.modulo(digit.to_i)
+    n = digit % n
 
     return chunk + next_chunk(n)
   end
