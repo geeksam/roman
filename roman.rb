@@ -34,7 +34,7 @@ class RomanNumeral
       integer.modulo(base_10)
     end
 
-    def chunk_for(integer)
+    def subtractive_chunk(integer)
       representation * integer.div(base_10)
     end
   end
@@ -54,7 +54,7 @@ class RomanNumeral
     return '' if n.zero?
 
     digit = next_digit(n)
-    chunk = digit.chunk_for(n)
+    chunk = digit.subtractive_chunk(n)
     n = digit % n
 
     return chunk + next_chunk(n)
