@@ -25,6 +25,10 @@ class RomanNumeral
 
   Digit = Struct.new(:representation, :base_10, :successor) do
     alias to_i base_10
+
+    def <(integer)
+      integer.div(base_10) > 0
+    end
   end
 
   I = Digit.new( "I", 1,    nil )
@@ -50,7 +54,7 @@ class RomanNumeral
   end
 
   def next_digit(n)
-    DIGITS.detect {|val| n.div(val.to_i) > 0 }
+    DIGITS.detect {|val| val < n }
   end
 
   def roman_digit(remainder, value)
