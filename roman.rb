@@ -23,7 +23,9 @@ class RomanNumeral
 
   private
 
-  Digit = Struct.new(:representation, :base_10, :successor)
+  Digit = Struct.new(:representation, :base_10, :successor) do
+    alias to_i base_10
+  end
 
   I = Digit.new( "I", 1,    nil )
   V = Digit.new( "V", 5,    I   )
@@ -34,7 +36,7 @@ class RomanNumeral
   M = Digit.new( "M", 1000, D   )
 
   DIGITS = [ M, D, C, L, X, V, I ]
-  VALUE_HASH = Hash[ DIGITS.map {|e| [ e.base_10, e.representation ] } ]
+  VALUE_HASH = Hash[ DIGITS.map {|e| [ e.to_i, e.representation ] } ]
 
   # Build number in chunks, recursively
   def next_chunk(n)
